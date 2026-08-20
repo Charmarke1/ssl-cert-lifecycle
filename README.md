@@ -124,6 +124,8 @@ Once validated, update the actual binding. The process differs significantly bet
 
 **Prerequisites:** Admin access to IIS Manager, the `.pfx` file, and the password.
 
+**Visual Step-by-Step:**
+
 1. **Open IIS Manager**
    - Press `Win + R` → type `inetmgr` → **OK**
    - Or: **Server Manager > Tools > Internet Information Services (IIS) Manager**
@@ -132,6 +134,9 @@ Once validated, update the actual binding. The process differs significantly bet
    - Left panel: Click your **server name** (top-level node)
    - Center panel: Double-click **Server Certificates**
    - Right panel: Click **Import...**
+   
+   📸 **[See Screenshot: SSL Dragon IIS Import Guide](https://www.ssldragon.com/how-to/install-ssl-certificate/iis/)** — Shows the Import dialog with annotations
+   
    - Browse to your `.pfx` file and enter the password
    - Click **OK** → Certificate is now stored locally
 
@@ -143,6 +148,9 @@ Once validated, update the actual binding. The process differs significantly bet
    - **Port: 443** (or custom if needed)
    - **Host name:** Enter your domain (e.g., `example.com`)
    - **SSL certificate:** Drop-down → Select the newly imported certificate (look for your domain name)
+   
+   📸 **[See Screenshot: My-SSL IIS Binding Configuration](https://my-ssl.com/learn/iis-10-ssl-installation)** — Shows the HTTPS binding dialog with all fields filled in
+   
    - Click **OK** → **Close**
 
 4. **Verify the Thumbprint (Critical Step)**
@@ -155,6 +163,8 @@ Once validated, update the actual binding. The process differs significantly bet
 5. **Restart the Website**
    - Right-click the website in the left panel → **Restart**
    - Check the **Application Pools** section and restart associated pools if needed
+
+📸 **[See Complete IIS Guide with Screenshots: Microsoft Learn - Configuring SSL in IIS Manager](https://learn.microsoft.com/en-us/iis/manage/configuring-security/configuring-ssl-in-iis-manager/)**
 
 ---
 
@@ -194,6 +204,8 @@ Once validated, update the actual binding. The process differs significantly bet
        # Other config...
    </VirtualHost>
    ```
+   
+   📸 **[See Apache Configuration Examples: Apache mod_ssl Documentation](https://httpd.apache.org/docs/2.4/mod/mod_ssl.html)** — Official Apache directive reference
 
 4. **Test Configuration**
    ```bash
@@ -206,6 +218,8 @@ Once validated, update the actual binding. The process differs significantly bet
    sudo systemctl restart apache2
    # Or: sudo service apache2 restart
    ```
+
+📸 **[See Complete Apache Guide: DigitalOcean - How to Secure Apache with SSL](https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-20-04)** — Step-by-step with terminal screenshots
 
 **For Tomcat:**
 
@@ -262,6 +276,14 @@ Final step is confirming a clean handshake with no browser trust warnings and no
    - Look for the **green lock icon** in the address bar (Firefox/Chrome)
    - Click the lock → **Connection Secure** should appear
 
+   📸 **What You Should See (✓ Success):**
+   ```
+   🔒 https://example.com
+   "Connection is secure"
+   └─ Issued by: GoDaddy Secure Certificate Authority
+      Valid from: Jan 15, 2025 to Jan 15, 2026
+   ```
+
 2. **Inspect Certificate Details**
    - Click **Connection is secure** → **Certificate is valid** → **Show more** → **Details**
    - Verify:
@@ -269,6 +291,10 @@ Final step is confirming a clean handshake with no browser trust warnings and no
      - ✓ Issuer matches your Certificate Authority
      - ✓ Expiration date is correct
      - ✓ **No red warnings or expired status**
+
+   📸 **[See How to View Certificates in Chrome](https://support.google.com/chrome/answer/95617)** — Google's official guide with screenshots
+   
+   📸 **[See How to View Certificates in Firefox](https://support.mozilla.org/en-US/kb/connection-security-error)** — Mozilla's official guide
 
 #### **Command-Line Verification**
 
@@ -287,9 +313,14 @@ openssl s_client -connect example.com:443 -showcerts | openssl x509 -noout -date
 
 #### **Online SSL Checker Tools**
 
-- **[SSL Labs (Qualys)](https://www.ssllabs.com/ssltest/)** — Comprehensive scan
-- **[Digicert Certificate Checker](https://www.digicert.com/help/certificate-validator)**
-- **[Let's Encrypt Certificate Check](https://crt.sh/)** — Certificate transparency lookup
+📸 **[SSL Labs Qualys Test](https://www.ssllabs.com/ssltest/)** — Comprehensive SSL/TLS security scan
+- Enter your domain and wait 2-5 minutes for results
+- Look for an **A or A+** grade (shown in green)
+- View certificate chain, protocols, ciphers, and security issues
+
+📸 **[DigiCert SSL Certificate Checker](https://www.digicert.com/help/certificate-validator)** — Quick validation
+
+📸 **[Crt.sh Certificate Transparency Search](https://crt.sh/)** — View all certificates issued for your domain
 
 **What to check for:**
 - ✓ **Grade A or better** on SSL Labs
@@ -324,7 +355,18 @@ that "renewed" means "correctly configured."
 
 ---
 
-## Additional Resources
+## 📖 Additional Resources & Screenshots
+
+For detailed visual guides with screenshots, see **[SCREENSHOTS.md](./SCREENSHOTS.md)** which includes:
+
+- 🔗 **Official Microsoft IIS Documentation** — With step-by-step screenshots
+- 🔗 **Official Apache mod_ssl Documentation** — Complete configuration reference
+- 🔗 **Third-Party Visual Guides** — SSL Dragon, My-SSL, DigitalOcean
+- 🔗 **Browser Certificate Verification Guides** — Chrome, Firefox, Edge
+- 🔗 **Interactive Testing Tools** — SSL Labs, DigiCert, Crt.sh
+- 🔗 **File Location Reference** — Windows and Linux paths
+- ✓ **Successful Deployment Examples** — What valid HTTPS looks like
+- ❌ **Common Error Examples** — How to identify problems
 
 ### Tools Used
 - **OpenSSL** — Certificate inspection and conversion (Linux/Mac/Windows Git Bash)
@@ -333,9 +375,9 @@ that "renewed" means "correctly configured."
 - **Tomcat Server.xml** — Java application server configuration
 - **SSL Labs / Digicert** — Live certificate validation
 
-### References
+### Official References
 - [OpenSSL Certificate Conversion Guide](https://www.ssl.com/article/how-to-convert-pfx-to-pem/)
-- [IIS SSL Certificate Binding (Microsoft)](https://docs.microsoft.com/en-us/iis/manage/configuring-security/configuring-ssl-in-iis)
+- [IIS SSL Configuration - Microsoft Learn](https://learn.microsoft.com/en-us/iis/manage/configuring-security/how-to-set-up-ssl-on-iis/)
 - [Apache mod_ssl Documentation](https://httpd.apache.org/docs/2.4/mod/mod_ssl.html)
 - [Tomcat SSL/TLS Configuration](https://tomcat.apache.org/tomcat-9.0-doc/ssl-howto.html)
 
