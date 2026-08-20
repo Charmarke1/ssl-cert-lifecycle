@@ -1,415 +1,694 @@
-# Visual Guide: SSL Certificate Deployment Screenshots
+# Visual Screenshot Guide: SSL Certificate Deployment
 
-This document provides step-by-step visual guidance for deploying certificates in IIS and Apache, with links to official documentation and external screenshot resources.
-
----
-
-## 📚 Official Documentation References
-
-### Microsoft IIS Official Documentation
-
-**Core SSL Configuration Guides:**
-
-- **[How to Set Up SSL on IIS 7 or later](https://learn.microsoft.com/en-us/iis/manage/configuring-security/how-to-set-up-ssl-on-iis/)** ⭐ Microsoft Learn
-  - Covers obtaining certificates, creating HTTPS bindings, and troubleshooting
-  - Step-by-step instructions for all IIS versions
-  
-- **[Configuring SSL in IIS Manager](https://learn.microsoft.com/en-us/iis/manage/configuring-security/configuring-ssl-in-iis-manager/)** ⭐ Microsoft Learn
-  - Visual tutorial for self-signed certificates, CA certificates, and SSL binding setup
-  - Screenshots included for major steps
-
-- **[Install Imported Certificates on Windows Server](https://learn.microsoft.com/en-us/troubleshoot/windows-server/certificates-and-public-key-infrastructure-pki/install-imported-certificates)** - Microsoft Learn
-  - Covers importing .PFX certificates into Windows Certificate Store
-
-### Apache Official Documentation
-
-- **[Apache SSL/TLS Encryption (mod_ssl)](https://httpd.apache.org/docs/2.4/ssl/)** ⭐ Official Apache Docs
-  - Complete mod_ssl directive reference and configuration guide
-  - SSL/TLS best practices and examples
-
-- **[mod_ssl Module Reference](https://httpd.apache.org/docs/2.4/mod/mod_ssl.html)** - Official Apache Docs
-  - Directive reference: SSLCertificateFile, SSLCertificateKeyFile, SSLCertificateChainFile
-  - Complete configuration examples
-
-- **[SSL/TLS How-To](https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html)** - Official Apache Docs
-  - Quick start guide for SSL configuration
-  - Common scenarios and troubleshooting
+This guide contains detailed descriptions of where to click in each interface, similar to the annotated screenshot you provided.
 
 ---
 
-## 🖼️ Screenshot Resources with Visual Walkthroughs
+## IIS Manager - Step-by-Step Visual Guide
 
-### IIS Certificate Import & Binding
-
-**Third-Party Guides with Screenshots:**
-
-- **[SSL Dragon: How to Install SSL Certificate on IIS 10+](https://www.ssldragon.com/how-to/install-ssl-certificate/iis/)**
-  - Visual step-by-step with screenshots for:
-    - Opening IIS Manager
-    - Navigating to Server Certificates
-    - Import dialog walkthrough
-    - HTTPS binding configuration
-    - Restarting the website
-
-- **[My-SSL: Install SSL on IIS 10+ (Windows Server 2016-2022)](https://my-ssl.com/learn/iis-10-ssl-installation)**
-  - Screenshots of:
-    - IIS Manager interface
-    - Certificate import wizard
-    - SSL binding dialog
-    - Verification steps
-
----
-
-### Apache SSL Configuration
-
-**Third-Party Guides with Examples:**
-
-- **[DigitalOcean: How to Set Up Apache with a Free SSL Certificate](https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-20-04)**
-  - Virtual host configuration examples with screenshots
-  - File permission examples
-  - Apache restart procedures
-
-- **[Linode: How to Install and Configure OpenSSL](https://www.linode.com/docs/guides/secure-http-with-ssl-certificates/)**
-  - SSL certificate file organization
-  - Virtual host configuration walkthrough
-  - Configuration testing steps
-
----
-
-## 🔒 Browser Certificate Verification
-
-### Viewing SSL Certificate Details
-
-**Google Chrome:**
-
-1. Click the **🔒 Padlock icon** in the address bar
-2. Click **"Connection is secure"**
-3. Click **"Certificate is valid"** to view full details
-4. Certificate details show:
-   - Issuer (Certificate Authority)
-   - Subject CN (domain name)
-   - Validity dates
-   - Certification path (chain)
-
-Reference: Chrome's Help Center - [Check if a site is secure](https://support.google.com/chrome/answer/95617)
-
-**Mozilla Firefox:**
-
-1. Click the **🔒 Padlock icon** in the address bar
-2. Click **"Connection secure"** arrow
-3. Click **"More Information"**
-4. In the pop-up, click **"View Certificate"**
-5. Review certificate details including:
-   - Issuer
-   - Subject CN
-   - Valid From / Valid Until
-   - Certification path
-
-Reference: Firefox Security - [Connection Security](https://support.mozilla.org/en-US/kb/connection-security-error)
-
-**Microsoft Edge:**
-
-1. Click the **🔒 Padlock icon** in the address bar
-2. Click **"Certificate (Valid)"**
-3. View certificate details in the sidebar
-4. Same information as Chrome/Firefox
-
-Reference: Edge Security Documentation
-
----
-
-## ✅ Successful Deployment Examples
-
-### What a Valid HTTPS Connection Looks Like
-
-**Visual Indicators:**
+### **Screenshot 1: Open IIS Manager & Select Your Website**
 
 ```
-Browser Address Bar:
-🔒 https://example.com    ← Green lock icon present
-   Connection is secure
-   └─ Issued by: GoDaddy Secure Certificate Authority
-   └─ Valid from Jan 15, 2025 to Jan 15, 2026
-   └─ No warnings or errors
-```
+┌─────────────────────────────────────────────────────────────────────┐
+│ Internet Information Services (IIS) Manager                          │
+│ File  View  Help                                                     │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  Connections Panel (LEFT)                                            │
+│  ┌─────────────────────┐                                             │
+│  │ 📁 UROSI (GALAXY)   │ ← Your Server                              │
+│  │   ├─ Sites          │                                             │
+│  │   │   ├─ Default    │                                             │
+│  │   │   └─ EPMWebDAV  │ ← 🔴 CLICK #1: Select your website        │
+│  │   └─ App Pools      │                                             │
+│  └─────────────────────┘                                             │
+│                                                                      │
+│  Center Panel: EPMWebDAV Home                                        │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │ Feature Name    │ Description                               │    │
+│  │ .NET Auth...    │ Configure rules for authorizing users...  │    │
+│  │ .NET Compl...   │ Configure properties for compiling...     │    │
+│  │ [more features]                                             │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+│                                                                      │
+│  Right Panel: Actions                                                │
+│  ┌──────────────────────┐                                            │
+│  │ 🔍 Explore           │                                            │
+│  │ ✏️ Edit Permissions  │                                            │
+│  │ ✏️ Edit Site         │                                            │
+│  │ ✅ Bindings...       │ ← 🟢 CLICK #2: Configure HTTPS binding    │
+│  │ 🌐 Basic Settings... │                                            │
+│  └──────────────────────┘                                            │
+└─────────────────────────────────────────────────────────────────────┘
 
-**How to Verify:**
-
-1. **Green/Grey Padlock** — Indicates encryption is active
-2. **No Warning Messages** — No "Not Secure" or "Deceptive Site"
-3. **Certificate Details Show:**
-   - ✓ Correct domain name (CN matches URL)
-   - ✓ Issued by trusted CA (not self-signed)
-   - ✓ Current date is within validity period
-   - ✓ Complete certificate chain present
-
-### SSL Labs A Grade Results
-
-**See Real Examples:**
-
-- **[SSL Labs Test Site](https://www.ssllabs.com/ssltest/)** — Enter any HTTPS domain to see its certificate grade
-- An **A grade** indicates:
-  - ✓ Valid certificate from trusted CA
-  - ✓ Strong encryption (TLS 1.2+)
-  - ✓ No weak ciphers or protocols
-  - ✓ HSTS enabled (bonus points)
-  - ✓ No known vulnerabilities
-
-**Public A-Grade Examples:**
-- `https://www.google.com` (Grade A+)
-- `https://www.github.com` (Grade A+)
-- `https://www.microsoft.com` (Grade A)
-
-Test them yourself to see what an ideal certificate configuration looks like.
-
----
-
-## ❌ Common Certificate Errors
-
-### Browser Error Examples
-
-**Error 1: Self-Signed Certificate (ERR_CERT_AUTHORITY_INVALID)**
-
-Visual indicators:
-```
-🔴 URL: https://example.com
-   ❌ "Your connection is not private"
-   ❌ NET::ERR_CERT_AUTHORITY_INVALID
-   ❌ "The certificate is not trusted"
-```
-
-How to see this error live:
-- Visit any site with self-signed certificates
-- Many internal corporate sites show this before proper CA certificates are installed
-
-**Fix:** Ensure certificate is issued by a trusted CA (GoDaddy, DigiCert, Let's Encrypt, etc.)
-
----
-
-**Error 2: Expired Certificate**
-
-Visual indicators:
-```
-🔴 URL: https://example.com
-   ❌ "This site's certificate has expired"
-   ❌ "Valid until: Jan 15, 2025" (date is in the past)
-```
-
-To see this error, you can visit sites that deliberately expired their certificates for testing purposes.
-
-**Fix:** Deploy the newly renewed certificate using the steps in the main README.md
-
----
-
-**Error 3: Domain Mismatch**
-
-Visual indicators:
-```
-🔴 URL: https://example.com
-   ❌ "The certificate is not valid for example.com"
-   ❌ "Certificate is for: old-site.com"
-```
-
-**Fix:** Verify the certificate Subject CN matches the domain being accessed
-- Check: `openssl x509 -noout -subject -in cert.pem`
-- Ensure IIS binding host name matches certificate CN
-- Ensure Apache ServerName matches certificate CN
-
----
-
-## 🛠️ Interactive Tools & Validators
-
-### Online Certificate Checkers
-
-**[SSL Labs by Qualys](https://www.ssllabs.com/ssltest/)**
-- Free, comprehensive SSL/TLS security analyzer
-- Shows certificate chain, protocols, ciphers
-- Assigns letter grade (A+, A, B, C, etc.)
-- How to use:
-  1. Visit https://www.ssllabs.com/ssltest/
-  2. Enter your domain
-  3. Click "Analyze"
-  4. Wait 2-5 minutes for results
-  5. Review grade and recommendations
-
-**[DigiCert SSL Certificate Checker](https://www.digicert.com/help/certificate-validator)**
-- Quick certificate validation
-- Shows certificate details and chain
-- Highlights potential issues
-
-**[Crt.sh Certificate Transparency Search](https://crt.sh/)**
-- View all certificates issued for a domain
-- Certificate transparency logs
-- Historical certificate records
-
----
-
-## 📋 File Locations Reference
-
-### Windows (IIS)
-
-**Certificate Store:**
-```
-Control Panel → Manage User Certificates → Personal → Certificates
-
-OR
-
-mmc.exe → Add Certificates snap-in → Computer account → Local Computer
-  → Certificates (Local Computer) → Personal → Certificates
-```
-
-**IIS Configuration:**
-```
-C:\Windows\System32\inetsrv\config\applicationHost.config
-  (Contains SSL binding configurations)
-```
-
-**IIS Logs:**
-```
-C:\inetpub\logs\LogFiles\W3SVC1\  (Website logs)
-C:\inetpub\logs\LogFiles\FTPSVC1\ (FTP logs if applicable)
-```
-
-**View in IIS Manager:**
-```
-inetmgr → Server node → Server Certificates
-  (View, import, and manage certificates here)
+ACTION:
+  1️⃣  Select your website (EPMWebDAV) in the Connections panel (LEFT)
+  2️⃣  In the RIGHT panel, click "Bindings..."
 ```
 
 ---
 
-### Linux/Apache
-
-**Certificate Files:**
-```
-/etc/apache2/ssl/privatekey.key          (Private key - chmod 600)
-/etc/apache2/ssl/server-cert.pem         (Server certificate)
-/etc/apache2/ssl/intermediate-ca.pem     (Intermediate certificates)
-```
-
-**Virtual Host Configuration:**
-```
-/etc/apache2/sites-available/default-ssl.conf     (Ubuntu/Debian)
-/etc/apache2/sites-available/example.com-ssl.conf (Custom site)
-/etc/httpd/conf.d/ssl.conf                        (CentOS/RHEL)
-```
-
-**Apache Logs:**
-```
-/var/log/apache2/error.log      (Error log - check here first)
-/var/log/apache2/access.log     (Access log)
-/var/log/httpd/error_log        (CentOS/RHEL)
-/var/log/httpd/access_log       (CentOS/RHEL)
-```
-
-**Enabled Sites:**
-```
-/etc/apache2/sites-enabled/     (Symlinks to active site configs)
-```
-
----
-
-## 🔄 Step-by-Step Quick Reference
-
-### IIS Workflow (ASCII Diagram)
+### **Screenshot 2: Site Bindings Dialog - Add HTTPS**
 
 ```
-1. Obtain .PFX from CA
-   ↓
-2. Open IIS Manager (Win + R → inetmgr)
-   ↓
-3. Select Server → Server Certificates
-   ↓
-4. Click "Import..." (right panel)
-   ├─ Browse to .PFX file
-   ├─ Enter password
-   └─ Click OK
-   ↓
-5. Select Website → Bindings (right panel)
-   ↓
-6. Click "Add..." or "Edit..." (HTTPS)
-   ├─ Type: https
-   ├─ Port: 443
-   ├─ Host: example.com
-   └─ SSL Certificate: (select from dropdown)
-   ↓
-7. Click OK
-   ↓
-8. Right-click Website → Restart
-   ↓
-9. Test in browser → should show 🔒 green lock
+┌─────────────────────────────────────────────────────────────────┐
+│ Site Bindings - EPMWebDAV                                        │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │ Type  │ Host Name      │ Port │ IP Address │ Binding... │    │
+│  ├─────────────────────────────────────────────────────────┤    │
+│  │ http  │ example.com    │ 80   │ All Unas...│             │    │
+│  │ https │ example.com    │ 443  │ All Unas...│ (SNI)       │    │
+│  └─────────────────────────────────────────────────────────┘    │
+│                                                                  │
+│  Buttons at bottom:                                              │
+│  ┌─────────┐  ┌──────────┐  ┌────────────┐  ┌────┐ ┌────────┐  │
+│  │ Add...  │  │ Edit...  │  │ Remove     │  │ OK │ │ Cancel │  │
+│  └─────────┘  └──────────┘  └────────────┘  └────┘ └────────┘  │
+│     ▲            ▲                                                │
+│     │            └─ 🟢 CLICK #2: Edit HTTPS binding             │
+│     └──── 🟢 CLICK #2a: Add if no HTTPS binding exists          │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+ACTION:
+  If no HTTPS binding exists → Click "Add..." and proceed to Screenshot 3
+  If HTTPS binding exists   → Click "Edit..." and proceed to Screenshot 3
 ```
 
 ---
 
-### Apache Workflow (ASCII Diagram)
+### **Screenshot 3: Edit Site Binding - Configure HTTPS & Select Certificate**
 
 ```
-1. Obtain .key, .pem, and intermediate files
-   ↓
-2. Copy files to /etc/apache2/ssl/
-   $ sudo cp *.key *.pem /etc/apache2/ssl/
-   ↓
-3. Set permissions
-   $ sudo chmod 600 /etc/apache2/ssl/privatekey.key
-   ↓
-4. Enable SSL module
-   $ sudo a2enmod ssl
-   ↓
-5. Edit /etc/apache2/sites-available/default-ssl.conf
-   ├─ SSLCertificateFile /etc/apache2/ssl/server-cert.pem
-   ├─ SSLCertificateKeyFile /etc/apache2/ssl/privatekey.key
-   └─ SSLCertificateChainFile /etc/apache2/ssl/intermediate-ca.pem
-   ↓
-6. Test syntax
-   $ sudo apache2ctl configtest  (should return "Syntax OK")
-   ↓
-7. Restart Apache
-   $ sudo systemctl restart apache2
-   ↓
-8. Test in browser → should show 🔒 green lock
+┌─────────────────────────────────────────────────────────────────┐
+│ Edit Site Binding                                                │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Type:              [https ▼]                                    │
+│                     └─ Must be "https"                           │
+│                                                                  │
+│  IP address:        [All Unassigned ▼]                           │
+│                     └─ Leave as default                          │
+│                                                                  │
+│  Port:              [443 ]                                       │
+│                     └─ Standard HTTPS port                       │
+│                                                                  │
+│  Host name:         [example.com              ]                  │
+│                     └─ 🟢 FILL: Your domain name                │
+│                                                                  │
+│  SSL certificate:   [GoDaddy: example.com (Exp: Jan 15 2026) ▼] │
+│                     ▲                                             │
+│                     └─ 🟢 CLICK #3: Select your certificate     │
+│                        (Shows domain + expiration date)          │
+│                                                                  │
+│  ☑ Require Server Name Indication (SNI)                         │
+│     └─ Modern browsers - usually checked by default              │
+│                                                                  │
+│                            [OK]  [Cancel]                        │
+│                             ▲                                     │
+│                             └─ 🟢 CLICK #4: Save configuration  │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+ACTION:
+  1️⃣  Type: Make sure it's set to "https"
+  2️⃣  Host name: Enter your domain (e.g., example.com)
+  3️⃣  SSL certificate: Click dropdown and select your newly imported cert
+      Look for your domain name + expiration date
+  4️⃣  Click "OK" to save
 ```
 
 ---
 
-## 📞 Getting Help
+### **Screenshot 4: Verify Certificate Selection**
 
-### When Something Goes Wrong
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Edit Site Binding                                                │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Type:              https ✓                                      │
+│  IP address:        All Unassigned ✓                             │
+│  Port:              443 ✓                                        │
+│  Host name:         example.com ✓                                │
+│                                                                  │
+│  SSL certificate:   ┌─ Certificate Dropdown ──────────────────┐  │
+│                     │ ✓ GoDaddy: example.com (Jan 15 2026)    │  │
+│                     │ ✓ GoDaddy: old-site.com (EXPIRED)       │  │
+│                     │ ✓ Self-Signed: local-testing            │  │
+│                     └──────────────────────────────────────────┘  │
+│                     ▲ MAKE SURE YOU SELECT THE RIGHT ONE:         │
+│                       - Domain matches your website               │
+│                       - Expiration date is in the FUTURE         │
+│                       - NOT expired                              │
+│                                                                  │
+│  ☑ Require Server Name Indication (SNI)                         │
+│                                                                  │
+│                            [OK]  [Cancel]                        │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
 
-**IIS Troubleshooting:**
-1. Check IIS Application Event Log: **Event Viewer → Windows Logs → Application**
-2. Verify certificate thumbprint matches binding: `netsh http show sslcert`
-3. Clear SSL bindings cache: `netsh http delete sslcert ipport=0.0.0.0:443`
-4. Re-import and re-bind certificate
-
-Reference: [Microsoft Troubleshooting SSL](https://learn.microsoft.com/en-us/troubleshoot/windows-server/certificates-and-public-key-infrastructure-pki/ssl-https-errors)
-
-**Apache Troubleshooting:**
-1. Check error log: `sudo tail -f /var/log/apache2/error.log`
-2. Test config syntax: `sudo apache2ctl configtest`
-3. Check file permissions: `ls -la /etc/apache2/ssl/`
-4. Verify certificate chain: `openssl verify -CAfile intermediate.pem cert.pem`
-
-Reference: [Apache SSL Documentation](https://httpd.apache.org/docs/2.4/ssl/)
-
----
-
-## 🎓 Learning Resources
-
-**Official Training:**
-- [Microsoft Learn IIS Documentation](https://learn.microsoft.com/en-us/iis/)
-- [Apache HTTP Server Documentation](https://httpd.apache.org/docs/)
-- [OpenSSL Official Documentation](https://www.openssl.org/docs/)
-
-**Community Guides:**
-- [Linux Academy (now A Cloud Guru)](https://www.acloud.guru/)
-- [Pluralsight IIS Courses](https://www.pluralsight.com/)
-- [Udemy SSL/TLS Courses](https://www.udemy.com/)
-
-**Quick Reference:**
-- [SSL.com Knowledge Base](https://www.ssl.com/kb/)
-- [Digicert Learning Center](https://www.digicert.com/learning/)
+⚠️  CRITICAL: Verify you select the CORRECT certificate:
+    ❌ Wrong: example.com (EXPIRED) 
+    ✅ Right: example.com (Jan 15 2026)
+```
 
 ---
 
-*For more detailed deployment instructions, see [README.md](./README.md) in this repository.*
+### **Screenshot 5: Restart Website to Apply Changes**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Internet Information Services (IIS) Manager                      │
+│                                                                  │
+│  Connections Panel (LEFT)                                        │
+│  ┌─────────────────────┐                                         │
+│  │ 📁 UROSI (GALAXY)   │                                         │
+│  │   ├─ Sites          │                                         │
+│  │   │   ├─ Default    │                                         │
+│  │   │   └─ EPMWebDAV  │ ← RIGHT-CLICK HERE                     │
+│  │   └─ App Pools      │                                         │
+│  └─────────────────────┘                                         │
+│                                                                  │
+│     Context Menu appears:                                        │
+│     ┌───────────────────────┐                                    │
+│     │ Edit Site             │                                    │
+│     │ Browse (http)         │                                    │
+│     │ Browse (https)        │                                    │
+│     │ ────────────────      │                                    │
+│     │ Manage Website        │                                    │
+│     │  ├─ Start             │                                    │
+│     │  ├─ Stop              │                                    │
+│     │  └─ Restart           │ ← 🟢 CLICK: Restart              │
+│     │ ────────────────      │                                    │
+│     │ Explore               │                                    │
+│     │ Remove                │                                    │
+│     └───────────────────────┘                                    │
+│                                                                  │
+│  After clicking "Restart":                                       │
+│  ✓ Website status changes: Stopping → Stopped → Starting → Started
+│  ✓ New certificate is now active                                 │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+ACTION:
+  1️⃣  Right-click your website in the left panel
+  2️⃣  Click "Manage Website" → "Restart"
+  3️⃣  Wait for status to change to "Started" (green)
+  4️⃣  Your new SSL certificate is now live!
+```
+
+---
+
+## Certificate Import Before Binding - Optional Path
+
+### **Screenshot 1b: Import Certificate (If Not Already Imported)**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Internet Information Services (IIS) Manager                      │
+│                                                                  │
+│  Connections Panel (LEFT)                                        │
+│  ┌─────────────────────────┐                                     │
+│  │ 📁 UROSI (GALAXY)       │ ← Click server node (top)          │
+│  │   ├─ Application Pools  │                                     │
+│  │   ├─ Sites              │                                     │
+│  │   └─ Server Certificates│                                     │
+│  └─────────────────────────┘                                     │
+│           ▲                                                       │
+│           └─ 🟢 CLICK #1: Click on server name                  │
+│                                                                  │
+│  Center Panel: Features                                          │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ Server Certificates   ← 🟢 CLICK #2: Double-click this  │   │
+│  │ Application Settings                                     │   │
+│  │ Machine Key                                              │   │
+│  │ [more features]                                          │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+ACTION:
+  1️⃣  Click your server node (e.g., UROSI) in the left panel
+  2️⃣  In the center panel, double-click "Server Certificates"
+```
+
+---
+
+### **Screenshot 2b: Server Certificates View - Import**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Server Certificates                                              │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Center Panel: Existing Certificates                             │
+│  ┌──────────────────────────────────────────────────────────┐    │
+│  │ Certificate Name    │ Issued To     │ Expiration Date     │    │
+│  ├──────────────────────────────────────────────────────────┤    │
+│  │ GoDaddy: app.com    │ app.com       │ Jan 15 2025 ❌      │    │
+│  │ GoDaddy: old-app    │ old-app.com   │ Dec 30 2024 ❌ EXP  │    │
+│  └──────────────────────────────────────────────────────────┘    │
+│                                                                  │
+│  Right Panel: Actions                                            │
+│  ┌─────────────────────────┐                                     │
+│  │ Create Self-Signed...   │                                     │
+│  │ 📥 Import...            │ ← 🟢 CLICK #3: Import new cert     │
+│  │ Bind...                 │                                     │
+│  │ Renew...                │                                     │
+│  │ Edit...                 │                                     │
+│  │ Delete                  │                                     │
+│  │ View...                 │                                     │
+│  └─────────────────────────┘                                     │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+ACTION:
+  1️⃣  Review existing certificates (check for expired ones)
+  2️⃣  In the RIGHT panel, click "Import..."
+```
+
+---
+
+### **Screenshot 3b: Import Certificate Dialog**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Import Certificate                                               │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Certificate File:                                               │
+│  ┌────────────────────────────────────────────────────────────┐ │
+│  │ C:\certificates\example_com.pfx                            │ │
+│  └────────────────────────────────────────────────────────────┘ │
+│  ┌──────────────┐                                                │
+│  │ 📁 Browse... │ ← 🟢 CLICK #4: Browse to your .PFX file       │
+│  └──────────────┘                                                │
+│                                                                  │
+│  Password:                                                       │
+│  ┌────────────────────────────────────────────────────────────┐ │
+│  │ ••••••••••••••••                                            │ │
+│  └────────────────────────────────────────────────────────────┘ │
+│  ← 🟢 ENTER: Your .PFX password (if prompted)                   │
+│                                                                  │
+│  ☑ Allow this certificate to be exported                        │
+│    └─ Usually leave checked                                     │
+│                                                                  │
+│                        [Import]  [Cancel]                       │
+│                           ▲                                      │
+│                           └─ 🟢 CLICK #5: Import certificate   │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+ACTION:
+  1️⃣  Click "Browse..." to locate your .PFX file
+  2️⃣  Select the certificate file (e.g., example_com.pfx)
+  3️⃣  Click "Open" to select it
+  4️⃣  Enter the password (if required)
+  5️⃣  Click "Import" to import the certificate
+  6️⃣  Certificate should now appear in the Server Certificates list
+```
+
+---
+
+## Apache - Terminal Visual Guide
+
+### **Apache Deployment Steps with Terminal Output**
+
+```bash
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Step 1: Copy Certificate Files
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+$ sudo cp privatekey.key /etc/apache2/ssl/
+$ sudo cp server-cert.pem /etc/apache2/ssl/
+$ sudo cp intermediate-ca.pem /etc/apache2/ssl/
+
+✓ Certificates copied to /etc/apache2/ssl/
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Step 2: Set Correct Permissions (CRITICAL)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+$ sudo chmod 600 /etc/apache2/ssl/privatekey.key
+
+$ sudo ls -la /etc/apache2/ssl/
+-rw------- 1 root root 1748 Aug 20 14:32 intermediate-ca.pem
+-rw------- 1 root root 1234 Aug 20 14:32 privatekey.key        ← Permission 600 ✓
+-rw-r--r-- 1 root root 2048 Aug 20 14:32 server-cert.pem
+
+✓ Private key is readable only by root
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Step 3: Enable SSL Module
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+$ sudo a2enmod ssl
+
+Enabling module ssl.
+To activate the new configuration, you need to run:
+  sudo systemctl restart apache2
+
+✓ SSL module enabled
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Step 4: Edit Apache Configuration
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+$ sudo nano /etc/apache2/sites-available/default-ssl.conf
+
+# Find and update these lines:
+# ────────────────────────────────────────────────────────────────
+
+<VirtualHost *:443>
+    ServerName example.com
+    
+    SSLEngine on
+    SSLCertificateFile /etc/apache2/ssl/server-cert.pem      ← ✓ Update
+    SSLCertificateKeyFile /etc/apache2/ssl/privatekey.key    ← ✓ Update
+    SSLCertificateChainFile /etc/apache2/ssl/intermediate-ca.pem ← ✓ Update
+    
+    DocumentRoot /var/www/html
+    # ... rest of config
+</VirtualHost>
+
+# Save: Ctrl + O (Enter) then Ctrl + X
+
+✓ Configuration file updated
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Step 5: Test Apache Configuration (BEFORE restarting!)
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+$ sudo apache2ctl configtest
+
+Syntax OK    ← ✓ Configuration is valid
+
+# ❌ If you see an error:
+# AH00112: Warning: DocumentRoot [/var/www/html] does not exist
+# ❌ Fix it before restarting
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Step 6: Restart Apache
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+$ sudo systemctl restart apache2
+
+$ sudo systemctl status apache2
+
+● apache2.service - The Apache HTTP Server
+   Loaded: loaded (...)
+   Active: active (running) since Aug 20 14:35:22 UTC 2026  ← ✓ Running
+
+✓ Apache is running with new SSL certificate
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Step 7: Verify Certificate is Live
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+$ openssl s_client -connect example.com:443 -showcerts
+
+CONNECTED(00000003)
+depth=2 C = US, O = GoDaddy, CN = GoDaddy Root CA
+verify return:1
+depth=1 CN = GoDaddy Secure Certificate Authority
+verify return:1
+depth=0 CN = example.com
+verify return:1
+
+Verify return code: 0 (ok)    ← ✓ Certificate chain is valid!
+```
+
+---
+
+## Browser Verification - Visual Steps
+
+### **Chrome: View Certificate Details**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Chrome Browser                                                   │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Address Bar:                                                    │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 🔒 https://example.com                                   │   │
+│  │    ↑                                                      │   │
+│  │    └─ 🟢 CLICK: Padlock icon                             │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│  Popup appears:                                                  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ ✓ Connection is secure                                  │   │
+│  │                                                          │   │
+│  │ This site is encrypted and authenticated by             │   │
+│  │ GoDaddy Secure Certificate Authority                    │   │
+│  │                                                          │   │
+│  │ [Certificate is valid]  ← 🟢 CLICK: View cert details  │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│  Certificate Details Window:                                     │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ General | Details | Certification Path                  │   │
+│  ├──────────────────────────────────────────────────────────┤   │
+│  │                                                          │   │
+│  │ Subject: CN = example.com                    ✓           │   │
+│  │ Issuer: GoDaddy Secure Certificate Auth...   ✓           │   │
+│  │ Valid From: Jan 15, 2025                     ✓           │   │
+│  │ Valid Until: Jan 15, 2026                    ✓           │   │
+│  │ Public Key: RSA (2048 bits)                  ✓           │   │
+│  │                                                          │   │
+│  │ Status: ✓ This certificate is valid                     │   │
+│  │                                                          │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+✓ SUCCESS: Certificate is valid and trusted
+```
+
+---
+
+### **Firefox: View Certificate Details**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Firefox Browser                                                  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Address Bar:                                                    │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 🔒 https://example.com                                   │   │
+│  │    ↑                                                      │   │
+│  │    └─ 🟢 CLICK: Padlock icon                             │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│  Popup appears:                                                  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ Connection secure                                       │   │
+│  │                                                          │   │
+│  │ The owner of example.com has configured their website   │   │
+│  │ certificate correctly.                                   │   │
+│  │                                                          │   │
+│  │ [More Information]  ← 🟢 CLICK: Show full details      │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│  Page Info Window:                                               │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ General | Security | Privacy | Permissions              │   │
+│  ├──────────────────────────────────────────────────────────┤   │
+│  │                                                          │   │
+│  │ 🔒 Secure Connection                                     │   │
+│  │    Verified by: GoDaddy Secure Certificate Authority    │   │
+│  │    Certificate is valid                                  │   │
+│  │                                                          │   │
+│  │ [View Certificate]  ← 🟢 CLICK: See certificate details │   │
+│  │                                                          │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│  Certificate Viewer:                                             │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ General | Details | Certification Path                  │   │
+│  ├──────────────────────────────────────────────────────────┤   │
+│  │                                                          │   │
+│  │ Subject Name:                                            │   │
+│  │   CN = example.com                           ✓           │   │
+│  │                                                          │   │
+│  │ Issuer Name:                                             │   │
+│  │   O = GoDaddy, CN = GoDaddy Secure Auth...  ✓           │   │
+│  │                                                          │   │
+│  │ Validity:                                                │   │
+│  │   Not Before: Jan 15, 2025                  ✓           │   │
+│  │   Not After: Jan 15, 2026                   ✓           │   │
+│  │                                                          │   │
+│  │ Public Key: RSA (2048 bits)                 ✓           │   │
+│  │                                                          │   │
+│  │ Status: ✓ Certificate is valid              ✓           │   │
+│  │                                                          │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+
+✓ SUCCESS: Certificate is valid and trusted
+```
+
+---
+
+## Troubleshooting - Error Screenshots
+
+### **Error 1: Self-Signed Certificate (ERR_CERT_AUTHORITY_INVALID)**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Chrome Browser - ERROR                                           │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Address Bar:                                                    │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ ❌ https://example.com                                   │   │
+│  │     ↑                                                     │   │
+│  │     └─ Red X on padlock (NOT SECURE)                     │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│  Error Message:                                                  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 🔴 Your connection is not private                        │   │
+│  │                                                          │   │
+│  │ Attackers might be trying to steal your information     │   │
+│  │ from example.com (e.g., passwords, messages, cards).    │   │
+│  │                                                          │   │
+│  │ NET::ERR_CERT_AUTHORITY_INVALID                          │   │
+│  │                                                          │   │
+│  │ [Advanced] [Go Back]                                     │   │
+│  │                                                          │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│ FIX: Certificate not issued by trusted Certificate Authority    │
+│      ✓ Ensure certificate is from GoDaddy, DigiCert, etc.      │
+│      ✓ NOT self-signed or custom CA                            │
+│      ✓ Restart IIS/Apache after deploying correct cert         │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### **Error 2: Expired Certificate**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Chrome Browser - ERROR                                           │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Address Bar:                                                    │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ ❌ https://example.com                                   │   │
+│  │     ↑                                                     │   │
+│  │     └─ Red X on padlock                                  │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│  Error Message:                                                  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 🔴 Your connection is not private                        │   │
+│  │                                                          │   │
+│  │ This site's certificate has expired.                     │   │
+│  │                                                          │   │
+│  │ Certificate expired on: Jan 15, 2025                     │   │
+│  │ Current date: Jan 20, 2025                               │   │
+│  │                                                          │   │
+│  │ NET::ERR_CERT_DATE_INVALID                               │   │
+│  │                                                          │   │
+│  │ [Advanced] [Go Back]                                     │   │
+│  │                                                          │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│ FIX: Deploy the newly renewed certificate                       │
+│      ✓ Verify new certificate expiration date is in future     │
+│      ✓ Follow Steps 1-5 in the IIS/Apache deployment guide     │
+│      ✓ Restart website/Apache service                          │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### **Error 3: Domain Mismatch**
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ Chrome Browser - ERROR                                           │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  You typed:       https://example.com                            │
+│  Certificate is:  https://old-site.com                           │
+│                                                                  │
+│  Address Bar:                                                    │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ ❌ https://example.com                                   │   │
+│  │     ↑                                                     │   │
+│  │     └─ Red X on padlock                                  │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│  Error Message:                                                  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 🔴 Your connection is not private                        │   │
+│  │                                                          │   │
+│  │ The certificate is not valid for: example.com           │   │
+│  │ Certificate is for: old-site.com                         │   │
+│  │                                                          │   │
+│  │ NET::ERR_CERT_COMMON_NAME_INVALID                        │   │
+│  │                                                          │   │
+│  │ [Advanced] [Go Back]                                     │   │
+│  │                                                          │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│ FIX: Domain mismatch - certificate CN doesn't match URL        │
+│      ✓ Verify Certificate CN matches your domain               │
+│         $ openssl x509 -noout -subject -in cert.pem             │
+│      ✓ Verify IIS binding hostname matches certificate CN      │
+│      ✓ Verify Apache ServerName matches certificate CN         │
+│      ✓ Re-bind/restart after fixing                            │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Quick Verification Checklist
+
+```
+After deployment, verify your certificate works:
+
+☐ Open browser → https://your-domain.com
+☐ Green lock icon 🔒 appears in address bar
+☐ No "Not Secure" warning message
+☐ Click lock → "Connection is secure" appears
+☐ View certificate details → domain name matches
+☐ Certificate expiration date is in the FUTURE
+☐ Issuer is a trusted Certificate Authority (GoDaddy, DigiCert, etc.)
+☐ SSL Labs test returns A or A+ grade
+☐ No mixed content warnings (HTTP resources on HTTPS page)
+☐ Website loads normally on HTTPS
+
+If any of the above fails:
+  ❌ Issue: Self-signed certificate
+  ✓ Solution: Deploy certificate from trusted CA
+
+  ❌ Issue: Expired certificate showing
+  ✓ Solution: Deploy newly renewed certificate
+
+  ❌ Issue: Domain name mismatch
+  ✓ Solution: Verify certificate CN and binding hostname match
+
+  ❌ Issue: Permission denied (Apache)
+  ✓ Solution: Run sudo chmod 600 /etc/apache2/ssl/privatekey.key
+
+  ❌ Issue: Apache won't start
+  ✓ Solution: Check error log: sudo tail -f /var/log/apache2/error.log
+```
+
+---
+
+For more details, see the main **README.md** file in this repository.
