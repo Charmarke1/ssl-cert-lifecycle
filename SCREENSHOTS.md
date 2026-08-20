@@ -1,557 +1,415 @@
 # Visual Guide: SSL Certificate Deployment Screenshots
 
-This document provides step-by-step visual guidance for deploying certificates in IIS and Apache.
+This document provides step-by-step visual guidance for deploying certificates in IIS and Apache, with links to official documentation and external screenshot resources.
 
 ---
 
-## IIS Certificate Binding Workflow
+## 📚 Official Documentation References
 
-### Step 1: Open IIS Manager
+### Microsoft IIS Official Documentation
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Press: Win + R                                              │
-├─────────────────────────────────────────────────────────────┤
-│  Type:  inetmgr                                              │
-│  Press: Enter                                                │
-└─────────────────────────────────────────────────────────────┘
-                              ↓
-┌─────────────────────────────────────────────────────────────┐
-│  Internet Information Services (IIS) Manager opens           │
-│                                                              │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │ + SERVER-NAME (your server)                          │   │
-│  │   ├─ Application Pools                               │   │
-│  │   ├─ Sites                                           │   │
-│  │   │  ├─ Default Web Site                             │   │
-│  │   │  └─ YOUR-WEBSITE-NAME  ← SELECT THIS            │   │
-│  │   ├─ Server Certificates    ← CLICK HERE FIRST       │   │
-│  │   └─ [More options...]                               │   │
-│  └──────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
-```
+**Core SSL Configuration Guides:**
 
----
+- **[How to Set Up SSL on IIS 7 or later](https://learn.microsoft.com/en-us/iis/manage/configuring-security/how-to-set-up-ssl-on-iis/)** ⭐ Microsoft Learn
+  - Covers obtaining certificates, creating HTTPS bindings, and troubleshooting
+  - Step-by-step instructions for all IIS versions
+  
+- **[Configuring SSL in IIS Manager](https://learn.microsoft.com/en-us/iis/manage/configuring-security/configuring-ssl-in-iis-manager/)** ⭐ Microsoft Learn
+  - Visual tutorial for self-signed certificates, CA certificates, and SSL binding setup
+  - Screenshots included for major steps
 
-### Step 2: Import the Certificate
+- **[Install Imported Certificates on Windows Server](https://learn.microsoft.com/en-us/troubleshoot/windows-server/certificates-and-public-key-infrastructure-pki/install-imported-certificates)** - Microsoft Learn
+  - Covers importing .PFX certificates into Windows Certificate Store
 
-**Click: Server Certificates (in left panel)**
+### Apache Official Documentation
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Center Panel: "Server Certificates"                         │
-├─────────────────────────────────────────────────────────────┤
-│  Existing Certificates (if any):                             │
-│  ├─ example.com (Expires: Jan 15 2026)                       │
-│  └─ [old-cert.com] (Expires: Dec 30 2024) ❌ EXPIRED        │
-│                                                              │
-│  Right Panel Actions:                                        │
-│  ┌──────────────┐                                            │
-│  │ Import...    │  ← CLICK HERE                              │
-│  └──────────────┘                                            │
-│  ┌──────────────┐                                            │
-│  │ Bind...      │                                            │
-│  └──────────────┘                                            │
-│  ┌──────────────┐                                            │
-│  │ Renew...     │                                            │
-│  └──────────────┘                                            │
-└─────────────────────────────────────────────────────────────┘
-```
+- **[Apache SSL/TLS Encryption (mod_ssl)](https://httpd.apache.org/docs/2.4/ssl/)** ⭐ Official Apache Docs
+  - Complete mod_ssl directive reference and configuration guide
+  - SSL/TLS best practices and examples
 
-**Import Dialog:**
+- **[mod_ssl Module Reference](https://httpd.apache.org/docs/2.4/mod/mod_ssl.html)** - Official Apache Docs
+  - Directive reference: SSLCertificateFile, SSLCertificateKeyFile, SSLCertificateChainFile
+  - Complete configuration examples
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Import Certificate                                          │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  Certificate File:  [C:\Certs\certificate.pfx ___________]  │
-│                                                      [Browse]│
-│                                                              │
-│  Password:          [***** ___________________________]      │
-│                     ☑ Allow this password to be exported    │
-│                                                              │
-│                          [Import]  [Cancel]                 │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
-```
-
-**After Import (Status):**
-
-```
-✓ Certificate imported successfully
-
-Certificate details:
-├─ CN: example.com
-├─ Issuer: GoDaddy Secure Certificate Authority
-├─ Valid From: Jan 15 2025
-├─ Valid To: Jan 15 2026
-└─ Thumbprint: 3F5E2A1B9C7D4E6F8A2B3C4D5E6F7A8B9C0D1E2F
-```
+- **[SSL/TLS How-To](https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html)** - Official Apache Docs
+  - Quick start guide for SSL configuration
+  - Common scenarios and troubleshooting
 
 ---
 
-### Step 3: Bind Certificate to Website
+## 🖼️ Screenshot Resources with Visual Walkthroughs
 
-**Right-click your website → Edit Bindings**
+### IIS Certificate Import & Binding
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Left Panel: Sites                                           │
-│                                                              │
-│  ├─ Default Web Site                                        │
-│  └─ example.com  ← RIGHT-CLICK HERE                         │
-│                                                              │
-│     Context Menu:                                            │
-│     ┌──────────────────────────┐                             │
-│     │ Edit Site                │                             │
-│     │ Bindings...    ← CLICK    │                             │
-│     │ Explore                  │                             │
-│     │ Remove                   │                             │
-│     │ Refresh                  │                             │
-│     │ Properties...            │                             │
-│     └──────────────────────────┘                             │
-└─────────────────────────────────────────────────────────────┘
-```
+**Third-Party Guides with Screenshots:**
+
+- **[SSL Dragon: How to Install SSL Certificate on IIS 10+](https://www.ssldragon.com/how-to/install-ssl-certificate/iis/)**
+  - Visual step-by-step with screenshots for:
+    - Opening IIS Manager
+    - Navigating to Server Certificates
+    - Import dialog walkthrough
+    - HTTPS binding configuration
+    - Restarting the website
+
+- **[My-SSL: Install SSL on IIS 10+ (Windows Server 2016-2022)](https://my-ssl.com/learn/iis-10-ssl-installation)**
+  - Screenshots of:
+    - IIS Manager interface
+    - Certificate import wizard
+    - SSL binding dialog
+    - Verification steps
 
 ---
 
-### Step 4: Add HTTPS Binding
+### Apache SSL Configuration
 
-**Site Bindings Window:**
+**Third-Party Guides with Examples:**
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│  Site Bindings for "example.com"                             │
-├──────────────────────────────────────────────────────────────┤
-│                                                               │
-│  Protocol  │ IP Address  │ Port │ Host Name  │ Binding Info  │
-│  ───────────────────────────────────────────────────────────  │
-│  http      │ All Unassign │ 80   │ example.  │ example.com   │
-│            │ ed          │      │ com       │               │
-│  ───────────────────────────────────────────────────────────  │
-│  https     │ All Unassign │ 443  │ example.  │ example.com   │
-│            │ ed          │      │ com       │ (SNI: yes)    │
-│                                                               │
-│  [Add...]  [Edit...]  [Remove]  [OK]  [Cancel]              │
-│                                                               │
-└──────────────────────────────────────────────────────────────┘
-```
+- **[DigitalOcean: How to Set Up Apache with a Free SSL Certificate](https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-20-04)**
+  - Virtual host configuration examples with screenshots
+  - File permission examples
+  - Apache restart procedures
 
-**Click "Edit..." (HTTPS binding):**
-
-```
-┌──────────────────────────────────────────────────────────────┐
-│  Edit Site Binding                                           │
-├──────────────────────────────────────────────────────────────┤
-│                                                               │
-│  Type:                [https ▼]                              │
-│                                                               │
-│  IP Address:          [All Unassigned ▼]                     │
-│                                                               │
-│  Port:                [443]                                  │
-│                                                               │
-│  Host name:           [example.com________________]          │
-│                       ⚠ MUST MATCH your domain               │
-│                                                               │
-│  SSL Certificate:     [example.com (Expires: Jan 15 2026) ▼] │
-│                                 ↑                             │
-│                    SELECT YOUR NEW CERT HERE                 │
-│                                                               │
-│  ☑ Require Server Name Indication                            │
-│                                                               │
-│                          [OK]  [Cancel]                      │
-│                                                               │
-└──────────────────────────────────────────────────────────────┘
-```
+- **[Linode: How to Install and Configure OpenSSL](https://www.linode.com/docs/guides/secure-http-with-ssl-certificates/)**
+  - SSL certificate file organization
+  - Virtual host configuration walkthrough
+  - Configuration testing steps
 
 ---
 
-### Step 5: Restart Website
+## 🔒 Browser Certificate Verification
 
-**Right-click website → Restart (or Manage Website → Restart)**
+### Viewing SSL Certificate Details
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│  Left Panel: Sites                                           │
-│                                                              │
-│  └─ example.com  ← RIGHT-CLICK HERE                         │
-│                                                              │
-│     Context Menu:                                            │
-│     ┌──────────────────────────┐                             │
-│     │ Manage Website           │                             │
-│     │ ├─ Start                 │                             │
-│     │ ├─ Stop                  │                             │
-│     │ └─ Restart    ← CLICK    │                             │
-│     │ Browse                   │                             │
-│     └──────────────────────────┘                             │
-└──────────────────────────────────────────────────────────────┘
+**Google Chrome:**
 
-Status Changes:
-Started  →  Stopping  →  Stopped  →  Starting  →  Started ✓
-                                                    (Ready)
-```
+1. Click the **🔒 Padlock icon** in the address bar
+2. Click **"Connection is secure"**
+3. Click **"Certificate is valid"** to view full details
+4. Certificate details show:
+   - Issuer (Certificate Authority)
+   - Subject CN (domain name)
+   - Validity dates
+   - Certification path (chain)
 
----
+Reference: Chrome's Help Center - [Check if a site is secure](https://support.google.com/chrome/answer/95617)
 
-## Apache Certificate Deployment Workflow
+**Mozilla Firefox:**
 
-### Step 1: Copy Files to Apache
+1. Click the **🔒 Padlock icon** in the address bar
+2. Click **"Connection secure"** arrow
+3. Click **"More Information"**
+4. In the pop-up, click **"View Certificate"**
+5. Review certificate details including:
+   - Issuer
+   - Subject CN
+   - Valid From / Valid Until
+   - Certification path
 
-```bash
-# Terminal/SSH Command Sequence:
+Reference: Firefox Security - [Connection Security](https://support.mozilla.org/en-US/kb/connection-security-error)
 
-┌────────────────────────────────────────────────────────────┐
-│ $ sudo cp privatekey.key /etc/apache2/ssl/                 │
-│ $ sudo cp server-cert.pem /etc/apache2/ssl/                │
-│ $ sudo cp intermediate-ca.pem /etc/apache2/ssl/            │
-│ $ sudo chmod 600 /etc/apache2/ssl/privatekey.key           │
-│                                                             │
-│ Output (no errors = success):                              │
-│ $ sudo ls -la /etc/apache2/ssl/                            │
-│ -rw------- 1 root root 1748 Aug 20 14:32 intermediate-ca.p │
-│ -rw------- 1 root root 1234 Aug 20 14:32 privatekey.key    │
-│ -rw-r--r-- 1 root root 2048 Aug 20 14:32 server-cert.pem   │
-│                                                             │
-│ ✓ Permission 600 (read/write for root only) ✓              │
-└────────────────────────────────────────────────────────────┘
-```
+**Microsoft Edge:**
+
+1. Click the **🔒 Padlock icon** in the address bar
+2. Click **"Certificate (Valid)"**
+3. View certificate details in the sidebar
+4. Same information as Chrome/Firefox
+
+Reference: Edge Security Documentation
 
 ---
 
-### Step 2: Enable SSL Module
+## ✅ Successful Deployment Examples
 
-```bash
-┌────────────────────────────────────────────────────────────┐
-│ $ sudo a2enmod ssl                                          │
-│                                                             │
-│ Output:                                                     │
-│ Enabling module ssl.                                       │
-│ To activate the new configuration, you need to run:        │
-│   sudo systemctl restart apache2                           │
-│                                                             │
-│ ✓ SSL module enabled                                        │
-└────────────────────────────────────────────────────────────┘
+### What a Valid HTTPS Connection Looks Like
+
+**Visual Indicators:**
+
 ```
+Browser Address Bar:
+🔒 https://example.com    ← Green lock icon present
+   Connection is secure
+   └─ Issued by: GoDaddy Secure Certificate Authority
+   └─ Valid from Jan 15, 2025 to Jan 15, 2026
+   └─ No warnings or errors
+```
+
+**How to Verify:**
+
+1. **Green/Grey Padlock** — Indicates encryption is active
+2. **No Warning Messages** — No "Not Secure" or "Deceptive Site"
+3. **Certificate Details Show:**
+   - ✓ Correct domain name (CN matches URL)
+   - ✓ Issued by trusted CA (not self-signed)
+   - ✓ Current date is within validity period
+   - ✓ Complete certificate chain present
+
+### SSL Labs A Grade Results
+
+**See Real Examples:**
+
+- **[SSL Labs Test Site](https://www.ssllabs.com/ssltest/)** — Enter any HTTPS domain to see its certificate grade
+- An **A grade** indicates:
+  - ✓ Valid certificate from trusted CA
+  - ✓ Strong encryption (TLS 1.2+)
+  - ✓ No weak ciphers or protocols
+  - ✓ HSTS enabled (bonus points)
+  - ✓ No known vulnerabilities
+
+**Public A-Grade Examples:**
+- `https://www.google.com` (Grade A+)
+- `https://www.github.com` (Grade A+)
+- `https://www.microsoft.com` (Grade A)
+
+Test them yourself to see what an ideal certificate configuration looks like.
 
 ---
 
-### Step 3: Edit Virtual Host Configuration
+## ❌ Common Certificate Errors
 
-**File: `/etc/apache2/sites-available/default-ssl.conf`**
+### Browser Error Examples
 
-```apache
-┌──────────────────────────────────────────────────────────────┐
-│ Find and update these lines:                                 │
-├──────────────────────────────────────────────────────────────┤
-│                                                               │
-│ <VirtualHost *:443>                                          │
-│     ServerName example.com                                   │
-│     ServerAlias www.example.com                              │
-│                                                               │
-│     # ← UPDATE THESE PATHS ↓                                 │
-│     SSLEngine on                                             │
-│     SSLCertificateFile /etc/apache2/ssl/server-cert.pem      │
-│     SSLCertificateKeyFile /etc/apache2/ssl/privatekey.key    │
-│     SSLCertificateChainFile /etc/apache2/ssl/intermediate-ca.│
-│     pem                                                      │
-│     # ← /UPDATE                                              │
-│                                                               │
-│     DocumentRoot /var/www/html                               │
-│                                                               │
-│     <Directory /var/www/html>                                │
-│         Options Indexes FollowSymLinks                       │
-│         AllowOverride All                                    │
-│         Require all granted                                  │
-│     </Directory>                                             │
-│                                                               │
-│ </VirtualHost>                                               │
-└──────────────────────────────────────────────────────────────┘
+**Error 1: Self-Signed Certificate (ERR_CERT_AUTHORITY_INVALID)**
 
-Nano Editor Shortcuts:
-  Ctrl + O  → Save (then Enter to confirm)
-  Ctrl + X  → Exit
+Visual indicators:
 ```
+🔴 URL: https://example.com
+   ❌ "Your connection is not private"
+   ❌ NET::ERR_CERT_AUTHORITY_INVALID
+   ❌ "The certificate is not trusted"
+```
+
+How to see this error live:
+- Visit any site with self-signed certificates
+- Many internal corporate sites show this before proper CA certificates are installed
+
+**Fix:** Ensure certificate is issued by a trusted CA (GoDaddy, DigiCert, Let's Encrypt, etc.)
 
 ---
 
-### Step 4: Test Apache Configuration
+**Error 2: Expired Certificate**
 
-```bash
-┌────────────────────────────────────────────────────────────┐
-│ $ sudo apache2ctl configtest                               │
-│                                                             │
-│ Expected Output (SUCCESS):                                  │
-│ Syntax OK ✓                                                 │
-│                                                             │
-│ If there's an error, you'll see:                            │
-│ AH00112: Warning: DocumentRoot [/var/www/html] does not    │
-│ exist                                                       │
-│ Syntax error on line 123 of /etc/apache2/...               │
-│                                                             │
-│ ⚠️ Fix the error before restarting                           │
-└────────────────────────────────────────────────────────────┘
+Visual indicators:
 ```
+🔴 URL: https://example.com
+   ❌ "This site's certificate has expired"
+   ❌ "Valid until: Jan 15, 2025" (date is in the past)
+```
+
+To see this error, you can visit sites that deliberately expired their certificates for testing purposes.
+
+**Fix:** Deploy the newly renewed certificate using the steps in the main README.md
 
 ---
 
-### Step 5: Restart Apache
+**Error 3: Domain Mismatch**
 
-```bash
-┌────────────────────────────────────────────────────────────┐
-│ $ sudo systemctl restart apache2                            │
-│                                                             │
-│ Status Check:                                               │
-│ $ sudo systemctl status apache2                             │
-│                                                             │
-│ Expected Output:                                            │
-│ ● apache2.service - The Apache HTTP Server                 │
-│   Loaded: loaded (...) active (running) ✓                  │
-│   Active: active (running) since Aug 20 14:35:22 UTC 2026  │
-│                                                             │
-│ ✓ Apache is running with new certificate                    │
-└────────────────────────────────────────────────────────────┘
+Visual indicators:
 ```
+🔴 URL: https://example.com
+   ❌ "The certificate is not valid for example.com"
+   ❌ "Certificate is for: old-site.com"
+```
+
+**Fix:** Verify the certificate Subject CN matches the domain being accessed
+- Check: `openssl x509 -noout -subject -in cert.pem`
+- Ensure IIS binding host name matches certificate CN
+- Ensure Apache ServerName matches certificate CN
 
 ---
 
-## Browser Verification Walkthrough
+## 🛠️ Interactive Tools & Validators
 
-### What You Should See (✓ Success)
+### Online Certificate Checkers
 
-```
-┌───────────────────────────────────────────────────────────┐
-│ Browser Address Bar (Chrome/Firefox)                       │
-├───────────────────────────────────────────────────────────┤
-│                                                             │
-│  🔒 example.com ✓                                           │
-│  ├─ Green lock icon                                        │
-│  └─ "Connection is secure"                                 │
-│                                                             │
-│  Click lock → "Certificate is valid"                       │
-│  ├─ Subject: example.com                                   │
-│  ├─ Issuer: GoDaddy Secure Certificate Authority           │
-│  ├─ Valid from: Jan 15, 2025                               │
-│  ├─ Valid until: Jan 15, 2026                              │
-│  └─ ✓ No warnings or errors                                │
-│                                                             │
-└───────────────────────────────────────────────────────────┘
-```
+**[SSL Labs by Qualys](https://www.ssllabs.com/ssltest/)**
+- Free, comprehensive SSL/TLS security analyzer
+- Shows certificate chain, protocols, ciphers
+- Assigns letter grade (A+, A, B, C, etc.)
+- How to use:
+  1. Visit https://www.ssllabs.com/ssltest/
+  2. Enter your domain
+  3. Click "Analyze"
+  4. Wait 2-5 minutes for results
+  5. Review grade and recommendations
 
-### What You Should NOT See (❌ Problems)
+**[DigiCert SSL Certificate Checker](https://www.digicert.com/help/certificate-validator)**
+- Quick certificate validation
+- Shows certificate details and chain
+- Highlights potential issues
 
-```
-┌───────────────────────────────────────────────────────────┐
-│ Bad Certificate Error Example 1: Self-Signed              │
-├───────────────────────────────────────────────────────────┤
-│                                                             │
-│  🔴 Not secure                                              │
-│  ├─ Red lock icon with X                                  │
-│  ├─ "Your connection is not private"                       │
-│  ├─ "NET::ERR_CERT_AUTHORITY_INVALID"                      │
-│  └─ ❌ Self-signed certificate detected                     │
-│                                                             │
-│  FIX: Ensure certificate chain includes intermediates      │
-└───────────────────────────────────────────────────────────┘
-
-┌───────────────────────────────────────────────────────────┐
-│ Bad Certificate Error Example 2: Expired                  │
-├───────────────────────────────────────────────────────────┤
-│                                                             │
-│  🔴 Not secure                                              │
-│  ├─ Red lock icon with X                                  │
-│  ├─ "This site's certificate has expired"                  │
-│  ├─ Valid until: Jan 15, 2025 (date is in past)            │
-│  └─ ❌ Certificate is outdated                              │
-│                                                             │
-│  FIX: Import the newly renewed certificate                 │
-└───────────────────────────────────────────────────────────┘
-
-┌───────────────────────────────────────────────────────────┐
-│ Bad Certificate Error Example 3: Domain Mismatch          │
-├───────────────────────────────────────────────────────────┤
-│  URL:  https://example.com                                 │
-│                                                             │
-│  🔴 Not secure                                              │
-│  ├─ "Certificate name mismatch"                            │
-│  ├─ "The certificate is not valid for example.com"         │
-│  ├─ "Certificate is for: old-site.com"                     │
-│  └─ ❌ Certificate subject doesn't match domain            │
-│                                                             │
-│  FIX: Verify domain name in certificate matches binding    │
-└───────────────────────────────────────────────────────────┘
-```
+**[Crt.sh Certificate Transparency Search](https://crt.sh/)**
+- View all certificates issued for a domain
+- Certificate transparency logs
+- Historical certificate records
 
 ---
 
-## Quick Reference: File Locations
+## 📋 File Locations Reference
 
 ### Windows (IIS)
 
+**Certificate Store:**
 ```
-┌──────────────────────────────────────────────────────────┐
-│ Certificate Store:                                        │
-│ C:\Users\[Username]\AppData\Roaming\Microsoft\SystemCerts │
-│                                                           │
-│ OR (via Cert Manager):                                   │
-│ certmgr.msc → Personal → Certificates                    │
-│                                                           │
-│ IIS Config:                                              │
-│ C:\Windows\System32\inetsrv\config\applicationHost.config │
-│                                                           │
-│ IIS Logs:                                                │
-│ C:\inetpub\logs\LogFiles\W3SVC1\                          │
-└──────────────────────────────────────────────────────────┘
+Control Panel → Manage User Certificates → Personal → Certificates
+
+OR
+
+mmc.exe → Add Certificates snap-in → Computer account → Local Computer
+  → Certificates (Local Computer) → Personal → Certificates
 ```
+
+**IIS Configuration:**
+```
+C:\Windows\System32\inetsrv\config\applicationHost.config
+  (Contains SSL binding configurations)
+```
+
+**IIS Logs:**
+```
+C:\inetpub\logs\LogFiles\W3SVC1\  (Website logs)
+C:\inetpub\logs\LogFiles\FTPSVC1\ (FTP logs if applicable)
+```
+
+**View in IIS Manager:**
+```
+inetmgr → Server node → Server Certificates
+  (View, import, and manage certificates here)
+```
+
+---
 
 ### Linux/Apache
 
+**Certificate Files:**
 ```
-┌──────────────────────────────────────────────────────────┐
-│ Certificate Files:                                        │
-│ /etc/apache2/ssl/privatekey.key                           │
-│ /etc/apache2/ssl/server-cert.pem                          │
-│ /etc/apache2/ssl/intermediate-ca.pem                      │
-│                                                           │
-│ Virtual Host Config:                                      │
-│ /etc/apache2/sites-available/default-ssl.conf            │
-│                                                           │
-│ Apache Logs:                                              │
-│ /var/log/apache2/error.log                               │
-│ /var/log/apache2/access.log                              │
-│                                                           │
-│ Enabled Sites:                                            │
-│ /etc/apache2/sites-enabled/                              │
-└──────────────────────────────────────────────────────────┘
+/etc/apache2/ssl/privatekey.key          (Private key - chmod 600)
+/etc/apache2/ssl/server-cert.pem         (Server certificate)
+/etc/apache2/ssl/intermediate-ca.pem     (Intermediate certificates)
 ```
 
----
-
-## Troubleshooting: Common Visual Errors
-
-### Error 1: "The server certificate is not trusted"
-
+**Virtual Host Configuration:**
 ```
-┌────────────────────────────────────────────────────────────┐
-│ Browser Shows:                                              │
-│ 🔴 SEC_ERROR_UNKNOWN_ISSUER (Firefox)                       │
-│ 🔴 ERR_CERT_AUTHORITY_INVALID (Chrome)                      │
-│                                                             │
-│ Root Cause:                                                │
-│ ├─ Intermediate certificate missing from deployment       │
-│ ├─ Chain not bundled correctly                             │
-│ └─ Wrong certificate authority                             │
-│                                                             │
-│ Fix Steps:                                                 │
-│ 1. Verify intermediate files exist:                        │
-│    $ ls -la /etc/apache2/ssl/                              │
-│                                                             │
-│ 2. Check Apache config points to intermediates:            │
-│    SSLCertificateChainFile /etc/apache2/ssl/intermediate-ca│
-│    .pem                                                    │
-│                                                             │
-│ 3. Test chain validation:                                  │
-│    $ openssl verify -CAfile intermediate-ca.pem \         │
-│      server-cert.pem                                       │
-│    Output should be: "server-cert.pem: OK"                 │
-│                                                             │
-│ 4. Restart Apache:                                         │
-│    $ sudo systemctl restart apache2                        │
-└────────────────────────────────────────────────────────────┘
+/etc/apache2/sites-available/default-ssl.conf     (Ubuntu/Debian)
+/etc/apache2/sites-available/example.com-ssl.conf (Custom site)
+/etc/httpd/conf.d/ssl.conf                        (CentOS/RHEL)
 ```
 
-### Error 2: "NET::ERR_CERT_AUTHORITY_INVALID"
-
+**Apache Logs:**
 ```
-┌────────────────────────────────────────────────────────────┐
-│ Browser Shows:                                              │
-│ https://example.com                                         │
-│ 🔴 "Your connection is not private"                         │
-│ "NET::ERR_CERT_AUTHORITY_INVALID"                           │
-│                                                             │
-│ Root Cause:                                                │
-│ └─ Browser cannot trace certificate back to trusted root   │
-│                                                             │
-│ Fix Steps:                                                 │
-│                                                             │
-│ For IIS:                                                   │
-│ 1. Open IIS Manager → Server Certificates                  │
-│ 2. Find the INTERMEDIATE certificate                       │
-│ 3. If it's not there, import the intermediate:             │
-│    - Right-click Intermediate Certification Authorities    │
-│    - Import → Select intermediate-ca.pem                   │
-│ 4. Return to website binding and re-select the cert        │
-│ 5. Restart website                                         │
-│                                                             │
-│ For Apache:                                                │
-│ 1. Verify SSLCertificateChainFile is set:                  │
-│    grep SSLCertificateChainFile /etc/apache2/sites-enabled │
-│    /default-ssl.conf                                       │
-│ 2. Check file exists and is readable:                      │
-│    sudo cat /etc/apache2/ssl/intermediate-ca.pem           │
-│ 3. Ensure it contains "-----BEGIN CERTIFICATE-----"        │
-│ 4. Restart Apache                                          │
-└────────────────────────────────────────────────────────────┘
+/var/log/apache2/error.log      (Error log - check here first)
+/var/log/apache2/access.log     (Access log)
+/var/log/httpd/error_log        (CentOS/RHEL)
+/var/log/httpd/access_log       (CentOS/RHEL)
+```
+
+**Enabled Sites:**
+```
+/etc/apache2/sites-enabled/     (Symlinks to active site configs)
 ```
 
 ---
 
-## Command Reference Card
+## 🔄 Step-by-Step Quick Reference
 
-```bash
-┌─────────────────────────────────────────────────────────────┐
-│ OpenSSL Quick Commands                                       │
-├─────────────────────────────────────────────────────────────┤
-│                                                               │
-│ # Verify private key & cert match                            │
-│ openssl rsa -noout -modulus -in key.key | openssl md5        │
-│ openssl x509 -noout -modulus -in cert.pem | openssl md5      │
-│                                                               │
-│ # Check certificate expiration                               │
-│ openssl x509 -noout -dates -in cert.pem                      │
-│                                                               │
-│ # Verify entire chain                                        │
-│ openssl verify -CAfile intermediate.pem cert.pem             │
-│                                                               │
-│ # View certificate details                                   │
-│ openssl x509 -text -noout -in cert.pem                       │
-│                                                               │
-│ # Test live server certificate                               │
-│ openssl s_client -connect example.com:443 -showcerts         │
-│                                                               │
-│ # Extract certificate from server                            │
-│ openssl s_client -connect example.com:443 </dev/null | \     │
-│   openssl x509 -outform PEM -out downloaded-cert.pem         │
-│                                                               │
-└─────────────────────────────────────────────────────────────┘
+### IIS Workflow (ASCII Diagram)
+
+```
+1. Obtain .PFX from CA
+   ↓
+2. Open IIS Manager (Win + R → inetmgr)
+   ↓
+3. Select Server → Server Certificates
+   ↓
+4. Click "Import..." (right panel)
+   ├─ Browse to .PFX file
+   ├─ Enter password
+   └─ Click OK
+   ↓
+5. Select Website → Bindings (right panel)
+   ↓
+6. Click "Add..." or "Edit..." (HTTPS)
+   ├─ Type: https
+   ├─ Port: 443
+   ├─ Host: example.com
+   └─ SSL Certificate: (select from dropdown)
+   ↓
+7. Click OK
+   ↓
+8. Right-click Website → Restart
+   ↓
+9. Test in browser → should show 🔒 green lock
 ```
 
 ---
 
-## Summary Checklist
+### Apache Workflow (ASCII Diagram)
 
 ```
-Before Deployment:
-  ☐ Certificate received from CA
-  ☐ PFX/P7B downloaded securely
-  ☐ Password stored safely (not in repo)
-  ☐ Certificate converted to PEM format
-  ☐ Private key extracted and secured (chmod 600)
-  ☐ Chain validation passed (openssl verify)
-
-During Deployment:
-  ☐ Files copied to correct directories
-  ☐ File permissions set correctly
-  ☐ IIS binding updated with correct thumbprint
-  ☐ Apache config file updated with correct paths
-  ☐ Configuration syntax tested (apache2ctl configtest)
-  ☐ Service restarted
-
-After Deployment:
-  ☐ Browser shows green lock 🔒
-  ☐ Certificate expiration is correct
-  ☐ No mixed content warnings
-  ☐ openssl s_client returns "Verify return code: 0 (ok)"
-  ☐ Dependent services running without errors
-  ☐ SSL Labs score is A or higher
+1. Obtain .key, .pem, and intermediate files
+   ↓
+2. Copy files to /etc/apache2/ssl/
+   $ sudo cp *.key *.pem /etc/apache2/ssl/
+   ↓
+3. Set permissions
+   $ sudo chmod 600 /etc/apache2/ssl/privatekey.key
+   ↓
+4. Enable SSL module
+   $ sudo a2enmod ssl
+   ↓
+5. Edit /etc/apache2/sites-available/default-ssl.conf
+   ├─ SSLCertificateFile /etc/apache2/ssl/server-cert.pem
+   ├─ SSLCertificateKeyFile /etc/apache2/ssl/privatekey.key
+   └─ SSLCertificateChainFile /etc/apache2/ssl/intermediate-ca.pem
+   ↓
+6. Test syntax
+   $ sudo apache2ctl configtest  (should return "Syntax OK")
+   ↓
+7. Restart Apache
+   $ sudo systemctl restart apache2
+   ↓
+8. Test in browser → should show 🔒 green lock
 ```
+
+---
+
+## 📞 Getting Help
+
+### When Something Goes Wrong
+
+**IIS Troubleshooting:**
+1. Check IIS Application Event Log: **Event Viewer → Windows Logs → Application**
+2. Verify certificate thumbprint matches binding: `netsh http show sslcert`
+3. Clear SSL bindings cache: `netsh http delete sslcert ipport=0.0.0.0:443`
+4. Re-import and re-bind certificate
+
+Reference: [Microsoft Troubleshooting SSL](https://learn.microsoft.com/en-us/troubleshoot/windows-server/certificates-and-public-key-infrastructure-pki/ssl-https-errors)
+
+**Apache Troubleshooting:**
+1. Check error log: `sudo tail -f /var/log/apache2/error.log`
+2. Test config syntax: `sudo apache2ctl configtest`
+3. Check file permissions: `ls -la /etc/apache2/ssl/`
+4. Verify certificate chain: `openssl verify -CAfile intermediate.pem cert.pem`
+
+Reference: [Apache SSL Documentation](https://httpd.apache.org/docs/2.4/ssl/)
+
+---
+
+## 🎓 Learning Resources
+
+**Official Training:**
+- [Microsoft Learn IIS Documentation](https://learn.microsoft.com/en-us/iis/)
+- [Apache HTTP Server Documentation](https://httpd.apache.org/docs/)
+- [OpenSSL Official Documentation](https://www.openssl.org/docs/)
+
+**Community Guides:**
+- [Linux Academy (now A Cloud Guru)](https://www.acloud.guru/)
+- [Pluralsight IIS Courses](https://www.pluralsight.com/)
+- [Udemy SSL/TLS Courses](https://www.udemy.com/)
+
+**Quick Reference:**
+- [SSL.com Knowledge Base](https://www.ssl.com/kb/)
+- [Digicert Learning Center](https://www.digicert.com/learning/)
+
+---
+
+*For more detailed deployment instructions, see [README.md](./README.md) in this repository.*
